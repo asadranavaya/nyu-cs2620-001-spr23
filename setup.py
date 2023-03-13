@@ -35,21 +35,19 @@ port = 7879 #reserve port 7879
 
 
 def send_and_advertise():
-    sending_socket.listen(len(node_dict))
     while True:
-        for i in node_dict: #Go through each node and advertise
-            temp_node = node.Node(node_dict.get(i))
-            if temp_node.has_recieved_initial_ack == True:
+        for key, n in node_dict.items(): #Go through each node and advertise
+            if n.has_recieved_initial_ack == True:
                 continue
             # Else send information 
-            host = temp_node.last_reachable_ipv4
+            host = n.last_reachable_ipv4
             sending_socket.connect((host, port))
-            message = constants.START_SENDING +","+ ipAddress + "," + temp_node.unique_name
+            message = constants.START_SENDING +","+ ipAddress + "," + n.unique_name
             message = message.encode()
             sending_socket.send(message)
             data = sending_socket.recv(1024).decode() #recieve response
             if(data == constants.INITIAL_RESPONSE_ACK_GOOD):
-                temp_node.has_recieved_initial_ack = True
+                n.has_recieved_initial_ack = True
 
             
 background_sending_thread = threading.Thread(target=send_and_advertise)
@@ -57,10 +55,12 @@ background_sending_thread.daemon = True
 background_sending_thread.start()
 
 #Recieve any updates from other threads
+#recieving_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 recieving_socket.bind((myHostName, port))
 recieving_socket.listen(len(node_dict)) #recieve as many connections as nodes in system
 recieved_ack_from_nodes_dict = {}
 while True:
+    print('Waiting for a connection!')
     if len(recieved_ack_from_nodes_dict) == len(node_dict):
         break #Start pinging once all nodes agree that sending should start
     connection, address = recieving_socket.accept()
@@ -77,9 +77,9 @@ while True:
         message = message.encode()
         connection.send(message)
 
-#All nodes have agreed, start pinging
+#All nodes have agreed, start pinging and close daemon
+
 #test a simple ping
-for i in node_dict:
-    temp_node = node.Node(node_dict.get(i))
-    ping(temp_node.last_reachable_ipv4, verbose=True)
+for key, n in node_dict.items():
+    ping(n.last_reachable_ipv4, verbose=True)
     
