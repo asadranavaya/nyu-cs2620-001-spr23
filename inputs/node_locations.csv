@@ -1,2 +1,2 @@
-Cloud_Provider,Region,Last_Known_IP,Instance_Type
-AWS,us-east-2,3.15.229.240,t2.micro
+Cloud_Provider,Region,Last_Known_IP,Instance_Type,isSelf
+AWS,us-east-2,3.15.229.240,t2.micro,0

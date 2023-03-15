@@ -7,6 +7,7 @@ class Node:
         self.instance_type = instance_type
         self.unique_name = self.cloud_provider +"-"+ self.cloud_region
         self.has_recieved_initial_ack = False
+        self.is_self = False
 
     def __str__(self):
         return f"{self.cloud_provider},{self.cloud_region},{self.last_reachable_ipv4},{self.instance_type}"
