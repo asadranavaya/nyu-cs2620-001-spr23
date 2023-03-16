@@ -43,10 +43,10 @@ for i in list_of_nodes:
     sending_file_socket.connect((i.last_reachable_ipv4, constants.RESERVED_PORT))
     print("Sending file to: ", i.last_reachable_ipv4)
     file = open(constants.NODE_LOCATION, "rb")
-    send_data = file.read(1024)
+    send_data = file.read(constants.BUFFER_SIZE)
     while send_data:
         sending_file_socket.send(send_data)
-        send_data = file.read(1024)
+        send_data = file.read(constants.BUFFER_SIZE)
     file.close()
     print("File sent to node, waiting for ack")
     #Wait for ack from node
