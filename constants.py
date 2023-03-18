@@ -3,7 +3,7 @@ from enum import Enum
 
 NODE_LOCATION = "inputs/node_locations.csv"
 OUTPUT_LOCATION = "outputs"
-GET_PUBLIC_IP_URL = "http://169.254.169.254/latest/meta-data/public-ipv4"
+GET_PUBLIC_IP_URL = "http://ipconfig.me"
 START_SENDING = "start_sending"
 INITIAL_RESPONSE_ACK_GOOD = "good"
 INITIAL_RESPONSE_ACK_BAD = "bad"
