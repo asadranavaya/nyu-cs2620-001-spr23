@@ -6,6 +6,8 @@ import socket
 import requests
 import helpers
 import threading
+import wget
+import os
 
 # 1. Set up a tcp connection with server
 # 2. Notify server of new public IP
@@ -128,4 +130,36 @@ for thread in threads:
 
 print("Done pinging")
 
+def write_wget_to_file(ip_path, file):
 
+    #Create line to write to file
+    filename = current_public_ip+".txt"
+    start_time = time()
+    response = wget.download(ip_path+":"+constants.WGET_PORT+constants.WGET_URI, out=filename)
+    end_time = time()
+    os.remove(filename)
+    output = f"{current_public_ip},{ip_path},{end_time - start_time},{constants.FILE_SIZE / (end_time - start_time)}\n"
+    file.write(output)
+
+
+def thread_wget_manager(output_path, ip_to_wget, times_to_wget, node_to_wget):
+    output_file = open(output_path+"_"+node_to_wget.unique_name+"_wget", "w")
+    for i in range(times_to_wget):
+        write_wget_to_file(ip_to_wget, output_file)
+        sleep(1)
+    output_file.close()
+
+wget_threads =[]
+amount_to_wget = 5
+
+for k,n in node_info_dict.items():
+    if not n.is_self:
+        thread = threading.Thread(target=thread_wget_manager, args=(thread_output_location_list[i], n.last_reachable_ipv4, amount_to_wget, n))
+        wget_threads.append(thread)
+        thread.start()
+
+for thread in wget_threads:
+    thread.join()
+
+
+print("Done wget")
