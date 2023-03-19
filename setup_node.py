@@ -135,7 +135,7 @@ def write_wget_to_file(ip_path, file):
     #Create line to write to file
     filename = current_public_ip+".txt"
     start_time = time()
-    response = wget.download(ip_path+":"+constants.WGET_PORT+constants.WGET_URI, out=filename)
+    response = wget.download(ip_path+":"+str(constants.WGET_PORT)+constants.WGET_URI, out=filename)
     end_time = time()
     os.remove(filename)
     output = f"{current_public_ip},{ip_path},{end_time - start_time},{constants.FILE_SIZE / (end_time - start_time)}\n"
