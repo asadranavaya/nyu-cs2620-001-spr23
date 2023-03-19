@@ -3,13 +3,16 @@ from enum import Enum
 
 NODE_LOCATION = "inputs/node_locations.csv"
 OUTPUT_LOCATION = "outputs"
-GET_PUBLIC_IP_URL = "http://169.254.169.254/latest/meta-data/public-ipv4"
+GET_PUBLIC_IP_URL = "http://ipconfig.me"
 START_SENDING = "start_sending"
 INITIAL_RESPONSE_ACK_GOOD = "good"
 INITIAL_RESPONSE_ACK_BAD = "bad"
 SERVER_LOCATION_EC2_EAST = "44.215.3.14"
 RESERVED_PORT = 7879
 BUFFER_SIZE = 4096 #network file location buffersize
+WGET_PORT = 8080
+WGET_URI = "/test/test.txt"
+FILE_SIZE = 1100009
 
 class CLOUD_PROVIDERS(Enum):
     AWS = 1
@@ -27,7 +30,8 @@ class AWS_REGIONS(Enum):
     EU_NORTH_1_STOCKHOLM = 8
 
 class GCP_REGIONS(Enum):
-    US_WEST_1 = 1
+    US_SOUTH_1 = 1
+    ASIA_EAST_1 = 2
 
 class AZURE_REGIONS(Enum):
     US_WEST_1 = 1
