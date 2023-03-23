@@ -1,5 +1,6 @@
 #!/bin/sh
-sudo apt install python3-pip
+sudo apt-get update
+sudo apt-get install -y python3-pip
 sudo /etc/init.d/apache2 stop
 sudo pip3 install requests
 sudo pip3 install pythonping
