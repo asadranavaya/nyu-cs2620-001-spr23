@@ -61,7 +61,7 @@ for i in list_of_nodes:
 for i in list_of_nodes:
     sending_file_socket = socket.socket()
     sending_file_socket.connect((i.last_reachable_ipv4, constants.RESERVED_PORT))
-    message = constants.START_SENDING + "," + minutes_to_run_experiment
+    message = constants.START_SENDING + "," + str(minutes_to_run_experiment)
     sending_file_socket.send(message.encode()) #send the start message
     print("Sent starting message to: ", i.last_reachable_ipv4)
     #Wait for ack from node to tell other nodes
