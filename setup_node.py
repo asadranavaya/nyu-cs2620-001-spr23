@@ -124,7 +124,7 @@ def thread_ping_manager(output_path, ip_to_ping, times_to_ping, node_to_ping):
         sleep(1)
     output_file.close()
 threads =[]
-amount_to_ping = minutes_to_run_experiment * 60;
+amount_to_ping = int(minutes_to_run_experiment * 60);
 i = 0
 for k,n in node_info_dict.items():
     if not n.is_self:
@@ -154,7 +154,7 @@ def thread_wget_manager(output_path, ip_to_wget, times_to_wget, node_to_wget):
     output_file.close()
 
 wget_threads =[]
-amount_to_wget = minutes_to_run_experiment * 2
+amount_to_wget = int(minutes_to_run_experiment * 2)
 
 i = 0
 for k,n in node_info_dict.items():
