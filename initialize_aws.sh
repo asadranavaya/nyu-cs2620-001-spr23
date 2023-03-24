@@ -8,5 +8,6 @@ sudo pip3 install wget
 sudo mkdir ~/test
 sudo cp -f test.txt ~/test/test.txt
 sudo amazon-linux-extras install nginx1
-sudo cp -f nginx.conf /etc/nginx/nginx.conf
+sudo systemctl start nginx.service
+sudo cp -f nginx_aws.conf /etc/nginx/nginx.conf
 sudo /usr/sbin/nginx -s reload
