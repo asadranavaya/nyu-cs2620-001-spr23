@@ -22,6 +22,15 @@ try:
 except:
     pass
 
+#delete all output files
+path = constants.OUTPUT_LOCATION + "/"
+for file_name in os.listdir(path):
+    # construct full file path
+    file = path + file_name
+    if os.path.isfile(file):
+        print('Deleting file:', file)
+        os.remove(file)
+
 #Get instance meta-data
 cloud_provider = helpers.print_enum_get_response(constants.CLOUD_PROVIDERS)
 cloud_region = helpers.print_enum_get_response_as_string(helpers.match_to_region(cloud_provider))
