@@ -64,13 +64,15 @@ while True:
     connection.close()
     break
 
+minutes_to_run_experiment = 0.0
 #Wait for server to say start pinging
 while True:
     print("Waiting for server to ack pinging phase")
     connection, address = recieving_socket.accept()
-    recv_data = connection.recv(1024).decode()
-    if recv_data == constants.START_SENDING:
+    recv_data = connection.recv(1024).decode().split(",")
+    if recv_data[0] == constants.START_SENDING:
         connection.send(constants.INITIAL_RESPONSE_ACK_GOOD.encode())
+    minutes_to_run_experiment = float(recv_data[1])
     connection.close()
     print("Server said to start experiment")
     break
@@ -122,7 +124,7 @@ def thread_ping_manager(output_path, ip_to_ping, times_to_ping, node_to_ping):
         sleep(1)
     output_file.close()
 threads =[]
-amount_to_ping = 15
+amount_to_ping = minutes_to_run_experiment * 60;
 i = 0
 for k,n in node_info_dict.items():
     if not n.is_self:
@@ -148,11 +150,11 @@ def thread_wget_manager(output_path, ip_to_wget, times_to_wget, node_to_wget):
     output_file = open(output_path+"_"+node_to_wget.unique_name+"_wget", "w")
     for i in range(times_to_wget):
         write_wget_to_file(ip_to_wget, output_file)
-        sleep(1)
+        sleep(30)
     output_file.close()
 
 wget_threads =[]
-amount_to_wget = 5
+amount_to_wget = minutes_to_run_experiment * 2
 
 i = 0
 for k,n in node_info_dict.items():

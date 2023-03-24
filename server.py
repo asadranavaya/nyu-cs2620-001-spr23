@@ -11,6 +11,7 @@ import node
 import socket
 
 number_of_nodes = int(input("Input number of nodes in this expirement: "))
+minutes_to_run_experiment = int(input("Input time in minutes to run experiment: "))
 sending_socket = socket.socket()
 sending_socket.bind((socket.gethostbyname(socket.gethostname()), constants.RESERVED_PORT))
 list_of_nodes = []
@@ -60,7 +61,8 @@ for i in list_of_nodes:
 for i in list_of_nodes:
     sending_file_socket = socket.socket()
     sending_file_socket.connect((i.last_reachable_ipv4, constants.RESERVED_PORT))
-    sending_file_socket.send(constants.START_SENDING.encode()) #send the start message
+    message = constants.START_SENDING + "," + minutes_to_run_experiment
+    sending_file_socket.send(message.encode()) #send the start message
     print("Sent starting message to: ", i.last_reachable_ipv4)
     #Wait for ack from node to tell other nodes
     data = sending_file_socket.recv(1024).decode()
