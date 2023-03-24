@@ -11,7 +11,7 @@ import node
 import socket
 
 number_of_nodes = int(input("Input number of nodes in this expirement: "))
-minutes_to_run_experiment = int(input("Input time in minutes to run experiment: "))
+minutes_to_run_experiment = float(input("Input time in minutes to run experiment: "))
 sending_socket = socket.socket()
 sending_socket.bind((socket.gethostbyname(socket.gethostname()), constants.RESERVED_PORT))
 list_of_nodes = []
