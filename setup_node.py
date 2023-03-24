@@ -16,6 +16,12 @@ import os
 # 4. Wait for ack to start from server
 # 5. Start sending
 
+#Create output folder
+try:
+    os.mkdir(constants.OUTPUT_LOCATION)
+except:
+    pass
+
 #Get instance meta-data
 cloud_provider = helpers.print_enum_get_response(constants.CLOUD_PROVIDERS)
 cloud_region = helpers.print_enum_get_response_as_string(helpers.match_to_region(cloud_provider))
@@ -66,7 +72,7 @@ while True:
     if recv_data == constants.START_SENDING:
         connection.send(constants.INITIAL_RESPONSE_ACK_GOOD.encode())
     connection.close()
-    print("Server said to start acking")
+    print("Server said to start experiment")
     break
     
 #read in data
@@ -125,10 +131,6 @@ for k,n in node_info_dict.items():
         thread.start()
         i = i + 1
 
-for thread in threads:
-    thread.join()
-
-print("Done pinging")
 
 def write_wget_to_file(ip_path, file):
 
@@ -163,5 +165,9 @@ for k,n in node_info_dict.items():
 for thread in wget_threads:
     thread.join()
 
+for thread in threads:
+    thread.join()
+
+print("Done pinging")
 
 print("Done wget")
