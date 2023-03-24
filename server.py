@@ -6,6 +6,7 @@
 #       3.a Wait for ack from all nodes
 # 4. Once all nodes ack, send message to start sending ping and wget
 
+from time import sleep
 import constants
 import node
 import socket
@@ -59,6 +60,7 @@ for i in list_of_nodes:
 #Send message to all nodes to start pinging
 
 for i in list_of_nodes:
+    sleep(1)
     sending_file_socket = socket.socket()
     sending_file_socket.connect((i.last_reachable_ipv4, constants.RESERVED_PORT))
     message = constants.START_SENDING + "," + str(seconds_to_run_experiment)
