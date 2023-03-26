@@ -132,15 +132,37 @@ def thread_ping_manager(output_path, ip_to_ping, times_to_ping, node_to_ping):
         write_ping_to_file(ip_to_ping, output_file, nodeToPing=node_to_ping)
         sleep(1)
     output_file.close()
+
+def sequential_thread_ping_manager(output_path, times_to_ping):
+    output_file = open(output_path + "_"+"sequential_pinging", "w")
+    for i in range(times_to_ping):
+        #create rtt line
+        line = str(i) + "," + str(time())
+        for key, n in node_info_dict.items():
+            if n.last_reachable_ipv4 == current_public_ip:
+                n.is_self = True
+                line += "0,"
+            else:
+                response = ping(n.last_reachable_ipv4, count=1)
+                line += str(response.rtt_avg)+","
+        #remove last comma
+        line = line[:len(line)-1] + "\n"
+        output_file.write(line)
+                
 threads =[]
 amount_to_ping = seconds_to_run_experiment;
-i = 0
-for k,n in node_info_dict.items():
-    if not n.is_self:
-        thread = threading.Thread(target=thread_ping_manager, args=(thread_output_location_list[i], n.last_reachable_ipv4, amount_to_ping, n))
-        threads.append(thread)
-        thread.start()
-        i = i + 1
+output_path = constants.OUTPUT_LOCATION + "/" + self_node.unique_name
+#Sequential thread
+thread = threading.Thread(target=sequential_thread_ping_manager, args=(output_path, amount_to_ping))
+threads.append(thread)
+thread.start()
+#i = 0
+#for k,n in node_info_dict.items():
+#    if not n.is_self:
+#        thread = threading.Thread(target=thread_ping_manager, args=(thread_output_location_list[i], n.last_reachable_ipv4, amount_to_ping, n))
+#        threads.append(thread)
+#        thread.start()
+#        i = i + 1
 
 
 def write_wget_to_file(ip_path, file):
