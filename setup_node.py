@@ -207,7 +207,9 @@ def sequential_thread_wget_manager(output_path, times_to_wget):
     output_file.close()
 wget_threads =[]
 amount_to_wget = int(seconds_to_run_experiment / 30)
-
+thread = threading.Thread(target=sequential_thread_wget_manager, args=(output_path, amount_to_wget))
+wget_threads.append(thread)
+thread.start()
 i = 0
 #for k,n in node_info_dict.items():
 #    if not n.is_self:
