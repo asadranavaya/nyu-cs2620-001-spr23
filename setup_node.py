@@ -137,7 +137,7 @@ def sequential_thread_ping_manager(output_path, times_to_ping):
     output_file = open(output_path + "_"+"sequential_pinging", "w")
     for i in range(times_to_ping):
         #create rtt line
-        line = str(i) + "," + str(time())
+        line = str(i) + "," + str(time())+","
         for key, n in node_info_dict.items():
             if n.last_reachable_ipv4 == current_public_ip:
                 n.is_self = True
@@ -184,16 +184,37 @@ def thread_wget_manager(output_path, ip_to_wget, times_to_wget, node_to_wget):
         sleep(30)
     output_file.close()
 
+def sequential_thread_wget_manager(output_path, times_to_wget):
+    output_file = open(output_path + "_sequential_pinging_wget", "w")
+    for i in range(times_to_wget):
+        #create rtt line
+        line = str(i) + "," + str(time())+","
+        for key, n in node_info_dict.items():
+            filename = n.last_reachable_ipv4+".txt"
+            if n.last_reachable_ipv4 == current_public_ip:
+                n.is_self = True
+                line += "0,"
+            else:
+                start_time = time()
+                response = wget.download("http://"+ip_path+":"+str(constants.WGET_PORT)+constants.WGET_URI, out=filename)
+                end_time = time()
+                throughput = constants.FILE_SIZE / (end_time - start_time)
+                line += str(throughput)+","
+        #remove last comma
+        line = line[:len(line)-1] + "\n"
+        output_file.write(line)
+    sleep(30)
+    output_file.close()
 wget_threads =[]
 amount_to_wget = int(seconds_to_run_experiment / 30)
 
 i = 0
-for k,n in node_info_dict.items():
-    if not n.is_self:
-        thread = threading.Thread(target=thread_wget_manager, args=(thread_output_location_list[i], n.last_reachable_ipv4, amount_to_wget, n))
-        wget_threads.append(thread)
-        thread.start()
-        i = i + 1
+#for k,n in node_info_dict.items():
+#    if not n.is_self:
+#        thread = threading.Thread(target=thread_wget_manager, args=(thread_output_location_list[i], n.last_reachable_ipv4, amount_to_wget, n))
+#        wget_threads.append(thread)
+#        thread.start()
+#        i = i + 1
 
 for thread in wget_threads:
     thread.join()
