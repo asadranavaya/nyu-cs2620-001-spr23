@@ -196,7 +196,7 @@ def sequential_thread_wget_manager(output_path, times_to_wget):
                 line += "0,"
             else:
                 start_time = time()
-                response = wget.download("http://"+ip_path+":"+str(constants.WGET_PORT)+constants.WGET_URI, out=filename)
+                response = wget.download("http://"+n.last_reachable_ipv4+":"+str(constants.WGET_PORT)+constants.WGET_URI, out=filename)
                 end_time = time()
                 throughput = constants.FILE_SIZE / (end_time - start_time)
                 line += str(throughput)+","
