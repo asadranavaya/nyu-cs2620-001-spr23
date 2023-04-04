@@ -130,7 +130,7 @@ def thread_ping_manager(output_path, ip_to_ping, times_to_ping, node_to_ping):
     output_file = open(output_path+"_"+node_to_ping.unique_name, "w")
     for i in range(times_to_ping):
         write_ping_to_file(ip_to_ping, output_file, nodeToPing=node_to_ping, currentLine=str(i))
-        sleep(0.5)
+        sleep(0.65)
     output_file.close()
 
 def sequential_thread_ping_manager(output_path, times_to_ping):
