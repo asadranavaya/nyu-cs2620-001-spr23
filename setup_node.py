@@ -223,7 +223,7 @@ for k,n in node_info_dict.items():
         thread.start()
         i = i + 1
 
-#for thread in wget_threads:
+for thread in wget_threads:
     thread.join()
 
 for thread in threads:
