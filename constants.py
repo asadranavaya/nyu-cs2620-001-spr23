@@ -42,6 +42,7 @@ class AZURE_REGIONS(Enum):
     QATAR_CENTRAL = 3
     SOUTH_AFRICA_NORTH = 4
     JAPAN_EAST = 5
+    US_EAST = 6
 
 class AWS_INSTNACE_TYPES(Enum):
     T2_MICRO = 1

@@ -34,8 +34,11 @@ for file_name in os.listdir(path):
 #Get instance meta-data
 cloud_provider = helpers.print_enum_get_response(constants.CLOUD_PROVIDERS)
 cloud_region = helpers.print_enum_get_response_as_string(helpers.match_to_region(cloud_provider))
-vm_instance = helpers.print_enum_get_response_as_string(helpers.match_to_instance(cloud_provider))
-
+if(len(helpers.match_to_instance(cloud_provider)) == 1):
+    vm_instance = helpers.match_to_instance(1).name
+else:
+    vm_instance = helpers.print_enum_get_response_as_string(helpers.match_to_instance(cloud_provider))
+#print("Reporting to server as: " + cloud_provider +"_"+cloud_region+"_"+vm_instance)
 #Get current IP address
 public_ip_response = requests.get(constants.GET_PUBLIC_IP_URL)
 current_public_ip = public_ip_response.text
