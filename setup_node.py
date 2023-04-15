@@ -186,7 +186,7 @@ def thread_wget_manager(output_path, ip_to_wget, times_to_wget, node_to_wget):
     output_file = open(output_path+"_"+node_to_wget.unique_name+"_wget", "w")
     for i in range(times_to_wget):
         write_wget_to_file(ip_to_wget, output_file)
-        sleep(30)
+        sleep(25)
     output_file.close()
 
 def sequential_thread_wget_manager(output_path, times_to_wget):
