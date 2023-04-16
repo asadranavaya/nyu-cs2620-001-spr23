@@ -186,7 +186,7 @@ for k,n in node_info_dict.items():
         i = i + 1
 
 
-def write_wget_to_file(ip_path, file):
+def write_wget_to_file(ip_path, file, line_num):
 
     #Create line to write to file
     filename = ip_path+".txt"
@@ -196,7 +196,7 @@ def write_wget_to_file(ip_path, file):
     response = wget.download("http://"+ip_path+":"+str(constants.WGET_PORT)+constants.WGET_URI, out=filename)
     end_time = time()
     os.remove(filename)
-    output = f"{current_public_ip},{ip_path},{end_time - start_time},{constants.FILE_SIZE / (end_time - start_time)}\n"
+    output = f"{str(line_num)},{current_public_ip},{ip_path},{end_time - start_time},{constants.FILE_SIZE / (end_time - start_time)}\n"
     file.write(output)
     file.flush()
     os.fsync(file.fileno())
@@ -205,7 +205,7 @@ def write_wget_to_file(ip_path, file):
 def thread_wget_manager(output_path, ip_to_wget, times_to_wget, node_to_wget):
     output_file = open(output_path+"_"+node_to_wget.unique_name, "w")
     for i in range(times_to_wget):
-        write_wget_to_file(ip_to_wget, output_file)
+        write_wget_to_file(ip_to_wget, output_file, i)
         sleep(25)
     output_file.close()
 
