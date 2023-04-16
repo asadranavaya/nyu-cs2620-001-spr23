@@ -7,7 +7,7 @@ sudo pip3 install pythonping
 sudo pip3 install wget
 sudo mkdir ~/test
 sudo cp -f test.txt ~/test/test.txt
-sudo amazon-linux-extras install nginx1
+sudo yum install nginx1 -y
 sudo systemctl start nginx.service
 sudo cp -f nginx_aws.conf /etc/nginx/nginx.conf
 sudo /usr/sbin/nginx -s reload
