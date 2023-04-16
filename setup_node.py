@@ -127,6 +127,8 @@ def write_ping_to_file(ip_path, file, nodeToPing, currentLine):
     response = ping(ip_path, count=1)
     output = f"{currentLine},{current_public_ip},{ip_path},{send_time},{response.rtt_avg},{send_time+response.rtt_avg}\n"
     file.write(output)
+    file.flush()
+    os.fsync(file.fileno())
 
 
 def thread_ping_manager(output_path, ip_to_ping, times_to_ping, node_to_ping):
@@ -180,6 +182,8 @@ def write_wget_to_file(ip_path, file):
     os.remove(filename)
     output = f"{current_public_ip},{ip_path},{end_time - start_time},{constants.FILE_SIZE / (end_time - start_time)}\n"
     file.write(output)
+    file.flush()
+    os.fsync(file.fileno())
 
 
 def thread_wget_manager(output_path, ip_to_wget, times_to_wget, node_to_wget):
