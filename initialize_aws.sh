@@ -1,5 +1,6 @@
 #!/bin/bash
 sudo yum update
+sudo yum install python -y
 sudo yum install -y python3-pip
 sudo /etc/init.d/apache2 stop
 sudo pip3 install requests
