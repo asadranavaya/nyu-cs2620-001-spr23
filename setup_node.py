@@ -18,12 +18,25 @@ import os
 
 #Create output folder
 try:
-    os.mkdir(constants.OUTPUT_LOCATION)
+    os.mkdir(constants.PING_OUTPUT_LOCATION)
+except:
+    pass
+
+try:
+    os.mkdir(constants.WGET_OUTPUT_LOCATION)
 except:
     pass
 
 #delete all output files
-path = constants.OUTPUT_LOCATION + "/"
+path = constants.PING_OUTPUT_LOCATION + "/"
+for file_name in os.listdir(path):
+    # construct full file path
+    file = path + file_name
+    if os.path.isfile(file):
+        print('Deleting file:', file)
+        os.remove(file)
+
+path = constants.WGET_OUTPUT_LOCATION + "/"
 for file_name in os.listdir(path):
     # construct full file path
     file = path + file_name
@@ -110,10 +123,13 @@ for key, n in node_info_dict.items():
 num_nodes = len(node_info_dict) - 1 #account for self node
 print("Num nodes: ", num_nodes)
 #create list of output files
-thread_output_location_list = []
+thread_ping_output_location_list = []
+thread_wget_output_location_list = []
 for i in range(num_nodes):
-    thread_output_location_list.append(constants.OUTPUT_LOCATION+"/thread_"+str(i)+"_ping_measure")
-for i in thread_output_location_list:
+    thread_ping_output_location_list.append(constants.PING_OUTPUT_LOCATION+"/thread_"+str(i)+"_ping_measure")
+    thread_wget_output_location_list.append(constants.WGET_OUTPUT_LOCATION+"/thread_"+str(i)+"_wget_measure")
+
+for i in thread_ping_output_location_list:
     print(i)
 def write_ping_to_file(ip_path, file, nodeToPing, currentLine):
     #capture source
@@ -164,7 +180,7 @@ amount_to_ping = seconds_to_run_experiment;
 i = 0
 for k,n in node_info_dict.items():
     if not n.is_self:
-        thread = threading.Thread(target=thread_ping_manager, args=(thread_output_location_list[i], n.last_reachable_ipv4, amount_to_ping, n))
+        thread = threading.Thread(target=thread_ping_manager, args=(thread_ping_output_location_list[i], n.last_reachable_ipv4, amount_to_ping, n))
         threads.append(thread)
         thread.start()
         i = i + 1
@@ -187,7 +203,7 @@ def write_wget_to_file(ip_path, file):
 
 
 def thread_wget_manager(output_path, ip_to_wget, times_to_wget, node_to_wget):
-    output_file = open(output_path+"_"+node_to_wget.unique_name+"_wget", "w")
+    output_file = open(output_path+"_"+node_to_wget.unique_name, "w")
     for i in range(times_to_wget):
         write_wget_to_file(ip_to_wget, output_file)
         sleep(25)
@@ -222,7 +238,7 @@ amount_to_wget = int(seconds_to_run_experiment / 30)
 i = 0
 for k,n in node_info_dict.items():
     if not n.is_self:
-        thread = threading.Thread(target=thread_wget_manager, args=(thread_output_location_list[i], n.last_reachable_ipv4, amount_to_wget, n))
+        thread = threading.Thread(target=thread_wget_manager, args=(thread_wget_output_location_list[i], n.last_reachable_ipv4, amount_to_wget, n))
         wget_threads.append(thread)
         thread.start()
         i = i + 1

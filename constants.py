@@ -2,7 +2,8 @@ from enum import Enum
 #Global constants to use
 
 NODE_LOCATION = "inputs/node_locations.csv"
-OUTPUT_LOCATION = "outputs"
+PING_OUTPUT_LOCATION = "ping_outputs"
+WGET_OUTPUT_LOCATION = "wget_outputs"
 GET_PUBLIC_IP_URL = "http://ipconfig.me"
 START_SENDING = "start_sending"
 INITIAL_RESPONSE_ACK_GOOD = "good"
