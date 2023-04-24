@@ -198,4 +198,5 @@ poetry.toml
 # LSP config files
 pyrightconfig.json
 
-# End of https://www.toptal.com/developers/gitignore/api/java,python
+# End of https://www.toptal.com/developers/gitignore/api/java,pythonJava_Analysis/ThroughputOptimizer/.idea/ Java_Analysis/Throughput_Optimizer/.idea/
+Java_Analysis/.DS_Store Java_Analysis/ThroughputOptimizer/.DS_Store
